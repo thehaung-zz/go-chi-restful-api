@@ -35,7 +35,13 @@ func (rs PostsResource) List(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}(resp.Body)
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -54,7 +60,13 @@ func (rs PostsResource) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}(resp.Body)
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -82,7 +94,13 @@ func (rs PostsResource) Get(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}(resp.Body)
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -112,7 +130,13 @@ func (rs PostsResource) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}(resp.Body)
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -144,6 +168,7 @@ func (rs PostsResource) Delete(w http.ResponseWriter, r *http.Request) {
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 	}(resp.Body)
